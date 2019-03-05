@@ -11,6 +11,7 @@ import (
 
 var products = lib.OurProducts()
 
+//AddProduct is a function that gets a new product from a http request and appends it to the products slice
 func AddProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -23,6 +24,7 @@ func AddProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("created new product")
 }
 
+//GetProduct is a function that returns a single product or false if product is not in the product list
 func GetProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -37,11 +39,16 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(false)
 }
 
+//GetProducts is a function that returns all products
 func GetProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	if len(products) == 0 {
+		json.NewEncoder(w).Encode(false)
+	}
 	json.NewEncoder(w).Encode(products)
 }
 
+//DeleteProduct deletes a single product from the products list
 func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -56,6 +63,7 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(products)
 }
 
+//DeleteProducts is a function that deletes all products from the products list
 func DeleteProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
