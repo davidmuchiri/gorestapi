@@ -1,4 +1,4 @@
-package handlers
+package routehandlers
 
 import (
 	"encoding/json"
@@ -46,7 +46,7 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//GetProducts is a function that returns all products
+//GetProducts is a function that returns all products from mlab database
 func GetProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -58,7 +58,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(productss)
 }
 
-//DeleteProduct deletes a single product from the products list
+//DeleteProduct deletes a single product from the products database
 func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -94,12 +94,34 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	// json.NewEncoder(w).Encode(products)
 }
 
-//DeleteProducts is a function that deletes all products from the products list
+//DeleteProducts is a function that deletes all products from the products database
 func DeleteProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
-	products = nil
-	json.NewEncoder(w).Encode("All products deleted")
-	fmt.Println(products)
+	res, err := lib.DeleteProductsFromDB()
+
+	if err != nil {
+		json.NewEncoder(w).Encode(false)
+		log.Fatal(err)
+	}
+	json.NewEncoder(w).Encode(res)
+
+}
+
+//UpdateProduct function updates a single product in the database
+func UpdateProduct(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "application/json")
+	res.WriteHeader(http.StatusOK)
+	params := mux.Vars(req)
+
+	var updates lib.Product
+
+	_ = json.NewDecoder(req.Body).Decode(&updates)
+	result, err := lib.UpdateProductDB(params["id"], updates)
+	if err != nil {
+		log.Fatal(err)
+		json.NewEncoder(res).Encode(err)
+	}
+	json.NewEncoder(res).Encode(result.MatchedCount)
 }

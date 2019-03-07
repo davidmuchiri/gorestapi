@@ -11,10 +11,10 @@ import (
 
 var uri = URI()
 
-//Client we export client
+//Client client is a variable that we use to connect to collections in the database
 var Client, err = mongo.NewClient(options.Client().ApplyURI(uri))
 
-//ConnectDB connect to mongo db
+//ConnectDB is a function that connects to the database
 func ConnectDB() {
 	if err != nil {
 		log.Fatal(err)

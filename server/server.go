@@ -10,7 +10,7 @@ import (
 //Port is the default port for now
 const Port = ":3000"
 
-// New Returns a new server
+// New Returns a new serverwith
 func New(mux *mux.Router) *http.Server {
 	srv := &http.Server{
 		Addr:         Port,

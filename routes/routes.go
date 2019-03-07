@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/dinobambino7/gorestapi/handlers"
+	"github.com/dinobambino7/gorestapi/routehandlers"
 	"github.com/gorilla/mux"
 )
 
@@ -9,11 +9,12 @@ import (
 func Routes() *mux.Router {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/{id}", handlers.AddProduct).Methods("POST")
-	router.HandleFunc("/api/getProducts", handlers.GetProducts).Methods("GET")
-	router.HandleFunc("/api/getProduct/{id}", handlers.GetProduct).Methods("GET")
-	router.HandleFunc("/api/deleteProduct/{id}", handlers.DeleteProduct).Methods("DELETE")
-	router.HandleFunc("/api/deleteProducts", handlers.DeleteProducts).Methods("DELETE")
+	router.HandleFunc("/api/{id}", routehandlers.AddProduct).Methods("POST")
+	router.HandleFunc("/api/getProducts", routehandlers.GetProducts).Methods("GET")
+	router.HandleFunc("/api/getProduct/{id}", routehandlers.GetProduct).Methods("GET")
+	router.HandleFunc("/api/updateProduct/{id}", routehandlers.UpdateProduct).Methods("PUT")
+	router.HandleFunc("/api/deleteProduct/{id}", routehandlers.DeleteProduct).Methods("DELETE")
+	router.HandleFunc("/api/deleteProducts", routehandlers.DeleteProducts).Methods("DELETE")
 
 	return router
 }
