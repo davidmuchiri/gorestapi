@@ -8,7 +8,7 @@ import (
 )
 
 //Port is the default port for now
-const Port = ":3000"
+const Port = ":8080"
 
 // New Returns a new serverwith
 func New(mux *mux.Router) *http.Server {
